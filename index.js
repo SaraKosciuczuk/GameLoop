@@ -74,10 +74,32 @@ const enemies = []
 
 function spawnEnemies(){
     setInterval(() => {
-        const x = 100
-        const y = 100
-        const radius = 30
+        const radius = Math.random() * (30 - 8) + 8
+
+        let x 
+        let y 
+
+        if(Math.random() < 0.5){
+        const x = Math.random() < 0.5 ? 0 - radius : 
+        canvas.width + radius
+        const y = Math.random() * canvas.height
+        } 
+        else{
+        const x = Math.random() * canvas.width
+        const y = Math.random() < 0.5 ? 0 - radius : 
+        canvas.height + radius 
+        }
+      
         const color = 'green'
+
+        const angle = Math.atan2(canvas.width / 2 - y, 
+            canvas.width / 2 - x)
+    
+        const velocity = {
+            x: Math.cos(angle),
+            y: Math.sin(angle)
+        }
+
         enemies.push(new Enemy(x, y, radius, color, velocity))
     }, 1000)
 }
@@ -87,6 +109,9 @@ function animate(){
     player.draw()
     projectiles.forEach(projectile => {
         projectile.update()
+    })
+    enemies.forEach(enemy => {
+        enemy.update()
     })
 }
 
